@@ -187,3 +187,10 @@ print(txt)
 txt2 = txt.replace("Salut","Bonsoir", 1)
 print(txt2)
 
+#extraction
+nom="789654123"
+print(nom[:5])
+print(nom[5:])
+print(nom[2:5])
+
+#exemple
