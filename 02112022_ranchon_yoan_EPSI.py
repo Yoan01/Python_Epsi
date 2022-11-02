@@ -135,4 +135,83 @@ class felins2:
     def def_type_félin(self):
         return self.type_félin
     def ch_type_félin(self, valeur):
+        if valeur == "serpent":
+            raise ValueError("Ca va la tête ?")
         self.type_félin = valeur
+
+# code "pythonique"
+# bonnes pratiques : éviter d'alourdir le code avec des getters et des setters
+# quand vous voulez indiquer qu'un attribut est "non public" on utilise un _ ( covention pour avertir l'utilisateur)
+# une classe sans méthode ne sert a rien , éviter d'avoir une liste vide comme attribut de classe
+
+
+class person:
+    def __init__(self, name):
+        self.name = name
+    def get_name(self):
+        print('Getting name')
+        return self._name
+    def set_name(self, value):
+        print('Setting name to ' + value)
+        self._name = value
+    def del_name(self):
+        print('Deleting name')
+        del self._name
+    name= property(get_name, set_name, del_name, 'Name property')
+
+p = person('Adam')
+print(p.name)
+p.name= 'Jhon'
+del p.name
+
+
+def Afficher_decorateur(function):
+    def nouvelle_fonction(a, b):
+        print('le résultat de cette opération avec {} et {}'.format(a,b))
+        res = function(a,b)
+        print('résultat: {}'.format(res))
+        return res
+    return nouvelle_fonction
+
+
+@Afficher_decorateur
+def soustraction(a,b):
+    return a-b
+soustraction(1,2)
+
+@Afficher_decorateur
+def addition(a,b):
+    return a+b
+addition(1,2)
+
+
+def minuscule(fonc):
+    def wrapper():
+        texte = fonc()
+        if not isinstance(texte, str):
+            raise TypeError("Type non adapté")
+        return texte.lower()
+    return wrapper
+
+@minuscule
+def salut():
+    return "Hello les amis"
+
+salut()
+
+
+def adresse_pro(fonc):
+    def wrapper():
+        texte = fonc()
+        res = "".join([texte, "@entreprise.com"])
+        return res
+    return wrapper
+
+
+# l'ordre des décorateurs est importante
+@minuscule
+@adresse_pro
+def utilisateur():
+    return "Tasnime"
+
+utilisateur()
